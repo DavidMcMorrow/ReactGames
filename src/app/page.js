@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Board from "./components/board";
 import Status from "./components/status";
 import GameModeSelection from "./components/gameModeSelection";
+import GameOver from "./components/gameOver";
 
 export default function Home() {
   const [board, setBoard] = useState(Array(9).fill(null));
@@ -11,8 +12,10 @@ export default function Home() {
   const [winningFormation, setWinningFormation] = useState([]);
   const [status, setStatus] = useState("");
   const [gameMode, setGameMode] = useState(null);
-  const [resetHovered, setResetHovered] = useState(false);
   const [isAIMoving, setIsAIMoving] = useState(false);
+  const [isGameOver, setIsGameOver] = useState(false);
+
+  const END_GAME_DELAY = 1500;
 
   function handleClick(index) {
     if(board[index] || calculateWinner(board).winner || isAIMoving) return
@@ -197,7 +200,15 @@ export default function Home() {
     const { winner, line } = calculateWinner(board);
     if (winner) {
       setStatus(`Winner: ${winner}`);
-      setWinningFormation(line)
+      setWinningFormation(line);
+      setTimeout(() => {
+        setIsGameOver(true);
+      }, END_GAME_DELAY);
+    } else if (board.every(square => square !== null)) {
+      setStatus("It's a tie!");
+      setTimeout(() => {
+        setIsGameOver(true);
+      }, END_GAME_DELAY);
     } else {
       setStatus(`Next Player: ${isXNext ? 'X' : 'O'}`);
     }
@@ -206,21 +217,14 @@ export default function Home() {
   return (
     <main style={styles.container}>
       <h1 style={styles.title}>Tic-Tac-Toe</h1>
-      <div style={gameMode ? styles.boardContainer : styles.boardContainerBlur}>
+      <div style={gameMode && !isGameOver ? styles.boardContainer : styles.boardContainerBlur}>
         <Board board={board} onSquareClick={gameMode ? handleClick : () => {}} winningFormation={winningFormation} />
         <Status status={status} />
       </div>
 
       {!gameMode && <GameModeSelection setGameMode={setGameMode} />}
 
-      {
-        gameMode && (
-          <button onClick={resetGame} onMouseEnter={() => setResetHovered(true)}
-          onMouseLeave={() => setResetHovered(false)} style={{
-            ...styles.resetButton,
-            ...(resetHovered === true ? styles.resetButtonHover : {})
-          }}>Reset Game</button>
-      )}
+      {isGameOver && <GameOver winner={calculateWinner.winner}/>}
     </main>
   )
 }
@@ -238,12 +242,12 @@ const styles = {
     fontWeight: "bold",
   },
   boardContainer: {
-    pointerEvents: "auto", // Board is interactive when game starts
+    pointerEvents: "auto", 
   },
   boardContainerBlur: {
-    pointerEvents: "none", // Prevents clicking before selecting mode
+    pointerEvents: "none", 
     opacity: 0.3,
-    filter: "blur(0.25rem)", // Adds a slight blur
+    filter: "blur(0.25rem)",
     transition: "opacity 0.5s ease, filter 0.5s ease",
   },
   resetButton: {

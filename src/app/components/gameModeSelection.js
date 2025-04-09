@@ -71,7 +71,6 @@ const styles = {
           }}
             >
               {displayText(mode)}
-              {/* {mode === "2P" ? "👫 2 Player" : mode === "Easy" ? "🤖 Easy Mode" : "🎯 Medium Mode"} */}
             </button>
           ))}
         </div>

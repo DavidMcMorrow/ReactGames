@@ -1,9 +1,13 @@
 import { useState } from "react";
 
-  export default function GameOver({ winner }) {
+  export default function GameOver({ winner, resetGame, setGameMode }) {
     const [hovered, setHovered] = useState(null);
+    const REMATCH = "Rematch"
+    const REMATCH_DIFF_MODE = "Rematch Different Mode"
 
     function displayTitle(){
+        console.log("winner", winner);
+        
         if(winner === "X"){
             return "X Won!"
         } else if(winner === "O"){
@@ -18,19 +22,19 @@ import { useState } from "react";
             <h2 className="option-section-title">{displayTitle()}</h2>
             <button
                 onClick={() => resetGame()}
-                onMouseEnter={() => setHovered("Rematch")}
+                onMouseEnter={() => setHovered(REMATCH)}
                 onMouseLeave={() => setHovered(null)}
-                className={`option-button ${hovered === "Rematch" ? "option-button-hover" : ""}`}
+                className={`option-button ${hovered === REMATCH ? "option-button-hover" : ""}`}
             >
-            Rematch
+            {REMATCH}
             </button>
             <button
-                onClick={() => setGameMode(null)}
-                onMouseEnter={() => setHovered("Rematch Same Mode")}
+                onClick={() => {setGameMode(null); resetGame()}}
+                onMouseEnter={() => setHovered(REMATCH_DIFF_MODE)}
                 onMouseLeave={() => setHovered(null)}
-                className={`option-button ${hovered === "Rematch Same Mode" ? "option-button-hover" : ""}`}
+                className={`option-button ${hovered === REMATCH_DIFF_MODE ? "option-button-hover" : ""}`}
             >
-            Rematch Same Mode
+            {REMATCH_DIFF_MODE}
             </button>
         </div>
       );

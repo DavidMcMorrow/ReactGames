@@ -192,8 +192,8 @@ export default function Home() {
     setBoard(Array(9).fill(null));
     setIsXNext(true);
     setWinningFormation([]);
-    setGameMode(null);
     setIsAIMoving(false);
+    setIsGameOver(false);
   }
 
   useEffect(() => {
@@ -205,7 +205,7 @@ export default function Home() {
         setIsGameOver(true);
       }, END_GAME_DELAY);
     } else if (board.every(square => square !== null)) {
-      setStatus("It's a tie!");
+      setStatus("It's a draw!");
       setTimeout(() => {
         setIsGameOver(true);
       }, END_GAME_DELAY);
@@ -224,7 +224,7 @@ export default function Home() {
 
       {!gameMode && <GameModeSelection setGameMode={setGameMode} />}
 
-      {isGameOver && <GameOver winner={calculateWinner.winner}/>}
+      {isGameOver && <GameOver winner={calculateWinner(board).winner} resetGame={resetGame} setGameMode={setGameMode}/>}
     </main>
   )
 }

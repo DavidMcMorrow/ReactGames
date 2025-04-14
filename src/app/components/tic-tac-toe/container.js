@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
-import Board from "./components/tic-tac-toe/board";
-import Status from "./components/tic-tac-toe/status";
-import GameModeSelection from "./components/tic-tac-toe/gameModeSelection";
-import GameOver from "./components/tic-tac-toe/gameOver";
+"use client"
 
-export default function container() {
+import { useState, useEffect } from "react";
+import Board from "./board";
+import Status from "./status";
+import GameModeSelection from "./gameModeSelection";
+import GameOver from "./gameOver";
+
+export default function TicTacToe() {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isXNext, setIsXNext] = useState(true);
   const [winningFormation, setWinningFormation] = useState([]);

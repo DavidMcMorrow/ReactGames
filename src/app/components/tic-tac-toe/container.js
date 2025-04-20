@@ -1,10 +1,13 @@
 "use client"
 
 import { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
+
 import Board from "./board";
 import Status from "./status";
 import GameModeSelection from "./gameModeSelection";
 import GameOver from "./gameOver";
+
 
 export default function TicTacToe() {
   const [board, setBoard] = useState(Array(9).fill(null));
@@ -14,6 +17,9 @@ export default function TicTacToe() {
   const [gameMode, setGameMode] = useState(null);
   const [isAIMoving, setIsAIMoving] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
+  
+
+  const router = useRouter();
 
   const END_GAME_DELAY = 1500;
 
@@ -196,6 +202,10 @@ export default function TicTacToe() {
     setIsGameOver(false);
   }
 
+  function returnToHome() {
+    router.push("/");
+  }
+
   useEffect(() => {
     const { winner, line } = calculateWinner(board);
     if (winner) {
@@ -222,7 +232,7 @@ export default function TicTacToe() {
         <Status status={status} />
       </div>
 
-      {!gameMode && <GameModeSelection setGameMode={setGameMode} />}
+      {!gameMode && <GameModeSelection setGameMode={setGameMode} returnToHome={returnToHome} />}
 
       {isGameOver && <GameOver winner={calculateWinner(board).winner} resetGame={resetGame} setGameMode={setGameMode}/>}
     </main>

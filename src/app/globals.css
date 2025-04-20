@@ -55,6 +55,8 @@ h1 {
 }
 
 .option-button {
+  --btn-gradient: linear-gradient(135deg, #6e8efb, #1c429c);
+
   display: block;
   width: 15rem;
   margin: 0.625rem auto;
@@ -63,15 +65,19 @@ h1 {
   cursor: pointer;
   border-radius: 0.5rem;
   border: none;
-  background: linear-gradient(135deg, #6e8efb, #1c429c);
+  background: var(--btn-gradient);
   color: white;
   transition: 0.3s;
 }
 
-.option-button-hover {
+.option-button:hover {
   transform: scale(1.05);
   box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
   cursor: pointer;
+}
+
+.option-button.return{
+  --btn-gradient: linear-gradient(135deg, #f2994a, #f46b45);
 }
 
 .title{
@@ -79,3 +85,4 @@ h1 {
   margin-bottom: 1rem;
   font-weight: bold;
 }
+

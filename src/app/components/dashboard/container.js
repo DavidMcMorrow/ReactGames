@@ -19,7 +19,6 @@ const Dashboard = () => {
     };
   
     return (
-      
       <div style={{
         display: "flex",
         justifyContent: "center",

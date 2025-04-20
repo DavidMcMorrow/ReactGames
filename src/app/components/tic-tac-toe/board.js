@@ -7,7 +7,6 @@ const styles = {
     gap: "0",
     width: "360px",
     margin: "auto",
-    // padding: "0.625rem",
   }
 };
 

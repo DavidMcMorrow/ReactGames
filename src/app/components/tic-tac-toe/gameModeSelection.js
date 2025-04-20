@@ -1,10 +1,7 @@
 import React from "react";
-import { useState } from "react";
 
 
-  export default function GameModeSelection({ setGameMode }) {
-    const [hovered, setHovered] = useState(null);
-
+  export default function GameModeSelection({ setGameMode, returnToHome }) {
     function displayText(mode){
       if(mode === "2P"){
         return "👫 2 Player";
@@ -24,13 +21,14 @@ import { useState } from "react";
             <button
               key={mode}
               onClick={() => setGameMode(mode)}
-              onMouseEnter={() => setHovered(mode)}
-              onMouseLeave={() => setHovered(null)}
-              className={`option-button ${hovered === mode ? "option-button-hover" : ""}`}
+              className={`option-button`}
             >
               {displayText(mode)}
             </button>
           ))}
+          <button onClick={() => returnToHome()}
+            className={`option-button return`}
+            >Return to Home Page</button>
         </div>
       );
 }

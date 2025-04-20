@@ -21,13 +21,13 @@ import React from "react";
             <button
               key={mode}
               onClick={() => setGameMode(mode)}
-              className={`option-button`}
+              className={'option-button'}
             >
               {displayText(mode)}
             </button>
           ))}
           <button onClick={() => returnToHome()}
-            className={`option-button return`}
+            className={'option-button return'}
             >Return to Home Page</button>
         </div>
       );

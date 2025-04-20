@@ -216,7 +216,7 @@ export default function TicTacToe() {
     
   return (
     <main style={styles.container}>
-      <h1 style={styles.title}>Tic-Tac-Toe</h1>
+      <h1 className={'title'}>Tic-Tac-Toe</h1>
       <div style={gameMode && !isGameOver ? styles.boardContainer : styles.boardContainerBlur}>
         <Board board={board} onSquareClick={gameMode ? handleClick : () => {}} winningFormation={winningFormation} />
         <Status status={status} />
@@ -235,11 +235,6 @@ const styles = {
     position: "relative",
     textAlign: "center",
     marginTop: "1.5rem",
-  },
-  title: {
-    fontSize: "2rem",
-    marginBottom: "1rem",
-    fontWeight: "bold",
   },
   boardContainer: {
     pointerEvents: "auto", 

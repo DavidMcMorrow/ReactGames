@@ -19,6 +19,7 @@ const Dashboard = () => {
     };
   
     return (
+      
       <div style={{
         display: "flex",
         justifyContent: "center",
@@ -26,7 +27,7 @@ const Dashboard = () => {
         flexDirection: "column",
         height: "100vh",
       }}>
-       
+       <div className={'title'}>Home Page</div>
         <button onClick={goToTicTacToe}
         onMouseEnter={() => setHovered("TicTacToe")}
         onMouseLeave={() => setHovered(null)}

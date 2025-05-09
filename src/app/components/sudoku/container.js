@@ -2,7 +2,7 @@
 import Board from "./board/board";
 import { useState, useEffect } from "react";
 
-export default function container() {
+export default function Sudoku() {
   
   const [board, setBoard] = useState(
     Array.from({ length: 9 }, () => Array(9).fill('1'))

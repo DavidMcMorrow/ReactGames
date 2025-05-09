@@ -1,0 +1,60 @@
+.grid{
+    display: grid;
+    grid-template-columns: repeat(9, 4rem);
+    grid-template-rows: repeat(9, 4rem);
+    border: 2px solid #333;
+    margin: 2rem auto;
+    width: max-content;
+}
+
+.cell {
+    width: 4rem;
+    height: 4rem;
+    font-size: 1.8rem;
+    text-align: center;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.cell:focus {
+    background-color: #e6f0ff;
+}
+
+/* Third Cells */
+.cell:nth-child(3n){  
+    border-right: 1px solid #000;
+}
+
+/* Fourth Cells */
+.cell:nth-child(3n + 1){  
+    border-left: 1px solid #000;
+}
+
+/* Row 4: cells 19–27 */
+/* Row 7: cells 46–54 */
+.cell:nth-child(n + 19):nth-child(-n + 27),
+.cell:nth-child(n + 46):nth-child(-n + 54) {
+  border-bottom: 1px solid #000;
+}
+
+/* Row 4: cells 28–36 */
+/* Row 7: cells 55–63 */
+.cell:nth-child(n + 28):nth-child(-n + 36),
+.cell:nth-child(n + 55):nth-child(-n + 63) {
+  border-top: 1px solid #000;
+}
+
+/* Top Row */
+.cell:nth-child(-n+9) {
+    border-top: 2px solid #000;
+}
+
+/* Last cell in each column */
+.cell:nth-child(9n) {
+    border-right: 2px solid #000;
+}
+
+/* Bottom Row */
+.cell:nth-last-child(-n+9) {
+    border-bottom: 2px solid #000;
+}

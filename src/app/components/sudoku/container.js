@@ -1,15 +1,17 @@
-export default function container() {
+'use client'
+import Board from "./board/board";
+import { useState, useEffect } from "react";
+
+export default function Sudoku() {
+  
+  const [board, setBoard] = useState(
+    Array.from({ length: 9 }, () => Array(9).fill('1'))
+  );
+
   return ( 
-    <div style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        fontSize: "2rem",
-        fontWeight: "bold"
-      }}>
-        Under Development
-    </div>
-    
+    <main className="sudoku-container">
+      <h1 className={'title'}>Sudoku</h1>
+      <Board board={board}/>
+    </main>
  );
 }

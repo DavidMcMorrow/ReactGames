@@ -1,0 +1,35 @@
+.cell {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0.5px solid #ccc;
+    outline: none;
+}
+
+.cell.readonly {
+  font-weight: bold;
+  background-color: white;
+}
+
+.cell.editable {
+  background-color: white;
+  cursor: pointer;
+  color: #007bff;
+}
+
+.cell.selected {
+  background-color: grey;
+}
+
+.right-border-thick { border-right: 1px solid black; }
+.left-border-thick { border-left: 1px solid black; }
+.bottom-border-thick { border-bottom: 1px solid black; }
+.top-border-thick { border-top: 1px solid black; }
+
+.top-border-strong { border-top: 2px solid black; }
+.bottom-border-strong { border-bottom: 2px solid black; }
+.left-border-strong { border-left: 2px solid black; }
+.right-border-strong { border-right: 2px solid black; }

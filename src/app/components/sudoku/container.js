@@ -19,6 +19,7 @@ export default function Sudoku() {
   const [selectedNumber, setSelectedNumber] = useState(0);
 
   const boardRef = useRef();
+  const clueRef = useRef();
 
   function createMatrix(boardState){
     let matrix = Array.from({ length: 9 }, () => Array(9).fill(''));
@@ -50,6 +51,14 @@ export default function Sudoku() {
     const updated = board.map(r => [...r]);
     updated[row][col] = value;
     setBoard(updated);
+  }
+
+  function giveClue(){
+    const { row, col } = selectedCell;
+    if(row == null || col == null) return;
+    
+    const actualValue = solution[selectedCell.row][selectedCell.col];
+    updateBoard(selectedCell.row, selectedCell.col, actualValue)
   }
 
   // Calls API
@@ -91,7 +100,7 @@ export default function Sudoku() {
   // Forget selected Cell
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if(!boardRef.current?.contains(e.target)){
+      if(!boardRef.current?.contains(e.target) && !clueRef.current.contains(e.target)){
         setSelectedCell({row: null, col: null})
       }
     };
@@ -115,6 +124,7 @@ export default function Sudoku() {
         selectedNumber={selectedNumber}
       />
       <NumberOptions selectedNumber={selectedNumber} setSelectedNumber={setSelectedNumber}></NumberOptions>
+      <button ref={clueRef} onClick={giveClue}>Need a Clue?</button>
     </main>
  );
 }

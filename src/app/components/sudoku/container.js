@@ -90,7 +90,10 @@ export default function Sudoku() {
 
   function numberOptionSelected(optionSelected){
     const { row, col } = selectedCell;
+    
     if(row == null || col == null) return;
+
+    if (originalBoard[row][col] !== 0) return;
 
     updateBoard(row, col, optionSelected)
     setSelectedNumber(optionSelected);

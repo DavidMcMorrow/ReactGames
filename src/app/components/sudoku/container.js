@@ -16,7 +16,7 @@ export default function Sudoku() {
   );
   const [selectedCell, setSelectedCell] = useState({row: null, col: null});
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedNumber, setSelectedNumber] = useState(0);
+  const [selectedNumber, setSelectedNumber] = useState();
   const [gameWon, setGameWon] = useState(false);
 
   const boardRef = useRef();
@@ -89,11 +89,11 @@ export default function Sudoku() {
   }
 
   function numberOptionSelected(optionSelected){
+    setSelectedNumber(optionSelected);
+    
     const { row, col } = selectedCell;
     
     if(row == null || col == null) return;
-
-    setSelectedNumber(optionSelected);
 
     if (originalBoard[row][col] !== 0) return;
 

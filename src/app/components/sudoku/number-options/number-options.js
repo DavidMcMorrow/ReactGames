@@ -1,6 +1,6 @@
 import './number-options.css';
 
-export default function NumberOptions({selectedNumber, setSelectedNumber}) {
+export default function NumberOptions({optionsRef, selectedNumber, setSelectedNumber}) {
     const options = Array.from({ length: 9 }, (_, i) => i + 1);
 
     function handleSelection(value){
@@ -12,7 +12,7 @@ export default function NumberOptions({selectedNumber, setSelectedNumber}) {
     }
     
     return(
-       <div className='options-container'>
+       <div ref={optionsRef} className='options-container'>
             {
                 options.map((value) => 
                     <div className={`option-boxes ${selectedNumber === value ? 'selected' : ''}`}

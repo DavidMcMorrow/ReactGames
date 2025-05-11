@@ -20,6 +20,7 @@ export default function Sudoku() {
 
   const boardRef = useRef();
   const clueRef = useRef();
+  const optionsRef = useRef();
 
   function createMatrix(boardState){
     let matrix = Array.from({ length: 9 }, () => Array(9).fill(''));
@@ -86,6 +87,13 @@ export default function Sudoku() {
     if (entry === 'ArrowRight') {setSelectedCell({ row, col: Math.min(8, col + 1) }); return true;};
   }
 
+  function numberOptionSelected(optionSelected){
+    const { row, col } = selectedCell;
+    if(row == null || col == null) return;
+
+    updateBoard(row, col, optionSelected)
+  }
+
   // Calls API
   useEffect(() => {
     fetch("/api/sudoku")
@@ -97,7 +105,7 @@ export default function Sudoku() {
       setIsLoading(false);
     })
     .catch(err => console.error(err))
-  }, [])
+  }, []);
 
   // Keydown
   useEffect(() => {
@@ -120,7 +128,7 @@ export default function Sudoku() {
   // Forget selected Cell
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if(!boardRef.current?.contains(e.target) && !clueRef.current.contains(e.target)){
+      if(!boardRef.current?.contains(e.target) && !clueRef.current.contains(e.target) && !optionsRef.current.contains(e.target)){
         setSelectedCell({row: null, col: null})
       }
     };
@@ -143,12 +151,11 @@ export default function Sudoku() {
         cellSelected={cellSelected}
         selectedNumber={selectedNumber}
       />
-      <NumberOptions selectedNumber={selectedNumber} setSelectedNumber={setSelectedNumber}></NumberOptions>
+      <NumberOptions optionsRef={optionsRef} selectedNumber={selectedNumber} setSelectedNumber={numberOptionSelected}></NumberOptions>
       <div className="button-container">
         <button className="option-button sudoku" ref={clueRef} onClick={giveClue}>Need a Clue?</button>
         <button className="option-button sudoku" onClick={resolveBoard}>Resolve Board</button>
       </div>
-      
     </main>
  );
 }

@@ -65,6 +65,27 @@ export default function Sudoku() {
     setBoard(solution)
   }
 
+  function handleDelete(row, col, entry){
+    if (entry === 'Backspace' || entry === 'Delete') {
+      updateBoard(row, col, 0);
+      return true;
+    }
+  }
+
+  function handleEntry(row, col, entry){
+    if (/^[1-9]$/.test(entry)) {
+      updateBoard(row, col, parseInt(entry, 10));
+      return true;
+    }
+  }
+
+  function handleArrowKeys(row, col, entry){
+    if (entry === 'ArrowUp') {setSelectedCell({ row: Math.max(0, row - 1), col }); return true;};
+    if (entry === 'ArrowDown') {setSelectedCell({ row: Math.min(8, row + 1), col }); return true;};
+    if (entry === 'ArrowLeft') {setSelectedCell({ row, col: Math.max(0, col - 1) }); return true;};
+    if (entry === 'ArrowRight') {setSelectedCell({ row, col: Math.min(8, col + 1) }); return true;};
+  }
+
   // Calls API
   useEffect(() => {
     fetch("/api/sudoku")
@@ -78,23 +99,18 @@ export default function Sudoku() {
     .catch(err => console.error(err))
   }, [])
 
-  // Inputs values
+  // Keydown
   useEffect(() => {
     const handleKeyDown = (e) => {
       const {row, col} = selectedCell;
       
       if(row == null || col == null) return
 
+      if(handleArrowKeys(row, col, e.key)) return
+
       if (originalBoard[row][col] !== 0) return;
 
-      if (e.key === 'Backspace' || e.key === 'Delete') {
-        updateBoard(row, col, 0);
-        return;
-      }
-
-      if (/^[1-9]$/.test(e.key)) {
-        updateBoard(row, col, parseInt(e.key, 10));
-      }
+      if(handleDelete(row, col, e.key) || handleEntry(row, col, e.key)) return
     };
 
     window.addEventListener('keydown', handleKeyDown);

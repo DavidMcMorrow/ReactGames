@@ -129,8 +129,8 @@ export default function Sudoku() {
       />
       <NumberOptions selectedNumber={selectedNumber} setSelectedNumber={setSelectedNumber}></NumberOptions>
       <div className="button-container">
-        <button className="option-button" ref={clueRef} onClick={giveClue}>Need a Clue?</button>
-        <button className="option-button" onClick={resolveBoard}>Resolve Board</button>
+        <button className="option-button sudoku" ref={clueRef} onClick={giveClue}>Need a Clue?</button>
+        <button className="option-button sudoku" onClick={resolveBoard}>Resolve Board</button>
       </div>
       
     </main>

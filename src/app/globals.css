@@ -80,6 +80,10 @@ h1 {
   --btn-gradient: linear-gradient(135deg, #f2994a, #f46b45);
 }
 
+.option-button.sudoku{
+  margin: 1rem 1rem 0 1rem;
+}
+
 .title{
   font-size: 2rem;
   margin-bottom: 1rem;
@@ -96,5 +100,4 @@ h1 {
 .button-container{
   display: flex;
   justify-content: center;
-  gap: 2rem;
 }

@@ -22,6 +22,5 @@ export default function NumberOptions({optionsRef, selectedNumber, setSelectedNu
                 )
             }
        </div>
-
     );
 }

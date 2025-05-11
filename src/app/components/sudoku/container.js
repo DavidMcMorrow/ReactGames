@@ -17,6 +17,7 @@ export default function Sudoku() {
   const [selectedCell, setSelectedCell] = useState({row: null, col: null});
   const [isLoading, setIsLoading] = useState(true);
   const [selectedNumber, setSelectedNumber] = useState(0);
+  const [gameWon, setGameWon] = useState(false);
 
   const boardRef = useRef();
   const clueRef = useRef();
@@ -92,6 +93,7 @@ export default function Sudoku() {
     if(row == null || col == null) return;
 
     updateBoard(row, col, optionSelected)
+    setSelectedNumber(optionSelected);
   }
 
   // Calls API
@@ -136,6 +138,19 @@ export default function Sudoku() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Checking for win
+  useEffect(() => {
+    if(isLoading) return
+    
+    const isComplete = board.every((row, rIdx) => 
+      row.every((cell, cIdx) => cell === solution[rIdx][cIdx])
+    );
+    
+    if(isComplete){
+      setGameWon(true);
+    }
+  }, [board, solution]);
+
   if (isLoading || !board || !originalBoard) {
     return <p>Loading...</p>;
   }
@@ -151,11 +166,21 @@ export default function Sudoku() {
         cellSelected={cellSelected}
         selectedNumber={selectedNumber}
       />
-      <NumberOptions optionsRef={optionsRef} selectedNumber={selectedNumber} setSelectedNumber={numberOptionSelected}></NumberOptions>
-      <div className="button-container">
-        <button className="option-button sudoku" ref={clueRef} onClick={giveClue}>Need a Clue?</button>
-        <button className="option-button sudoku" onClick={resolveBoard}>Resolve Board</button>
+      {!gameWon && (
+        <>
+          <NumberOptions optionsRef={optionsRef} selectedNumber={selectedNumber} setSelectedNumber={numberOptionSelected}></NumberOptions>
+          <div className="button-container">
+            <button className="option-button sudoku" ref={clueRef} onClick={giveClue}>Need a Clue?</button>
+            <button className="option-button sudoku" onClick={resolveBoard}>Resolve Board</button>
+          </div>
+        </>
+      )}
+      {gameWon && 
+      <div>
+        <p className="game-over-title">Puzzle Solved Correctly!</p>
+        <p className="game-over-sub-title">Refresh the page for a new puzzle!</p>
       </div>
+      }
     </main>
  );
 }

@@ -1,6 +1,6 @@
 import './cell.css';
 
-export default function Cell({rowIndex, colIndex, value, originalBoard, selectedCell, onClick}){
+export default function Cell({rowIndex, colIndex, value, originalBoard, selectedCell, cellSelected}){
     const borderClasses = [
         (colIndex === 2 || colIndex === 5) && 'right-border-thick',
         (colIndex === 3 || colIndex === 6) && 'left-border-thick',
@@ -24,7 +24,7 @@ export default function Cell({rowIndex, colIndex, value, originalBoard, selected
     ].join(' ').trim();
 
     const handleSelection = () => {
-        if (isEditable) onClick({row: rowIndex, col: colIndex});
+        if (isEditable) cellSelected({row: rowIndex, col: colIndex});
     }
 
     return (

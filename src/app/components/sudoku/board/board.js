@@ -1,7 +1,7 @@
 import './board.css';
 import Cell from '../cell/cell';
 
-export default function Board({board, boardRef, originalBoard, selectedCell, setSelectedCell}) {
+export default function Board({board, boardRef, originalBoard, selectedCell, cellSelected, selectedNumber}) {
   return (
     <div ref={boardRef} className="grid">
         {
@@ -14,7 +14,8 @@ export default function Board({board, boardRef, originalBoard, selectedCell, set
                 value={cell}
                 originalBoard={originalBoard[rowIndex][colIndex]}
                 selectedCell={selectedCell}
-                onClick={setSelectedCell} 
+                cellSelected={cellSelected}
+                selectedNumber={selectedNumber}
               />
             ))
           )

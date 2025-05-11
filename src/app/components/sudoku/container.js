@@ -38,6 +38,20 @@ export default function Sudoku() {
     return matrix;
   }
 
+  function cellSelected(position){
+    const {row, col} = position;
+    setSelectedCell(position);
+    if(selectedNumber != 0){
+      updateBoard(row, col, selectedNumber);
+    }
+  }
+
+  function updateBoard(row, col, value){
+    const updated = board.map(r => [...r]);
+    updated[row][col] = value;
+    setBoard(updated);
+  }
+
   // Calls API
   useEffect(() => {
     fetch("/api/sudoku")
@@ -54,8 +68,6 @@ export default function Sudoku() {
   // Inputs values
   useEffect(() => {
     const handleKeyDown = (e) => {
-      console.log("selectedCell", selectedCell);
-      
       const {row, col} = selectedCell;
       
       if(row == null || col == null) return
@@ -63,16 +75,12 @@ export default function Sudoku() {
       if (originalBoard[row][col] !== 0) return;
 
       if (e.key === 'Backspace' || e.key === 'Delete') {
-        const updated = board.map(r => [...r]);
-        updated[row][col] = 0;
-        setBoard(updated);
+        updateBoard(row, col, 0);
         return;
       }
 
       if (/^[1-9]$/.test(e.key)) {
-        const updated = board.map(r => [...r]);
-        updated[row][col] = parseInt(e.key, 10);
-        setBoard(updated);
+        updateBoard(row, col, parseInt(e.key, 10));
       }
     };
 
@@ -103,7 +111,8 @@ export default function Sudoku() {
         boardRef={boardRef} 
         originalBoard={originalBoard} 
         selectedCell={selectedCell}
-        setSelectedCell={setSelectedCell}
+        cellSelected={cellSelected}
+        selectedNumber={selectedNumber}
       />
       <NumberOptions selectedNumber={selectedNumber} setSelectedNumber={setSelectedNumber}></NumberOptions>
     </main>

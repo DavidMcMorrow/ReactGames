@@ -1,5 +1,6 @@
 'use client'
 import Board from "./board/board";
+import NumberOptions from "./number-options/number-options"
 import { useState, useEffect, useRef } from "react";
 
 export default function Sudoku() {
@@ -15,6 +16,7 @@ export default function Sudoku() {
   );
   const [selectedCell, setSelectedCell] = useState({row: null, col: null});
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedNumber, setSelectedNumber] = useState(0);
 
   const boardRef = useRef();
 
@@ -78,6 +80,7 @@ export default function Sudoku() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedCell, board, originalBoard]);
 
+  // Forget selected Cell
   useEffect(() => {
     const handleClickOutside = (e) => {
       if(!boardRef.current?.contains(e.target)){
@@ -102,6 +105,7 @@ export default function Sudoku() {
         selectedCell={selectedCell}
         setSelectedCell={setSelectedCell}
       />
+      <NumberOptions selectedNumber={selectedNumber} setSelectedNumber={setSelectedNumber}></NumberOptions>
     </main>
  );
 }

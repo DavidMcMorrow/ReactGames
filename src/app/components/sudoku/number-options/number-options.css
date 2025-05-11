@@ -1,0 +1,19 @@
+.options-container{
+    display: flex;
+    justify-content: center;
+}
+
+.option-boxes{
+    border: 1px solid black;
+    height: 2.5rem;
+    width: 2.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.option-boxes.selected{
+    background-color: red;
+}

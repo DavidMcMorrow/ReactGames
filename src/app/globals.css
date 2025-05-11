@@ -80,6 +80,10 @@ h1 {
   --btn-gradient: linear-gradient(135deg, #f2994a, #f46b45);
 }
 
+.option-button.sudoku{
+  margin: 1rem 1rem 0 1rem;
+}
+
 .title{
   font-size: 2rem;
   margin-bottom: 1rem;
@@ -91,4 +95,26 @@ h1 {
   position: relative;
   text-align: center;
   margin-top: 1.5rem;
+}
+
+.button-container{
+  display: flex;
+  justify-content: center;
+}
+
+.game-over-title{
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.game-over-sub-title{
+  font-size: 1.2rem;
+}
+
+.loading-bar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8rem;
+  height: 100vh;
 }

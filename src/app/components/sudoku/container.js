@@ -17,8 +17,11 @@ export default function Sudoku() {
   const [selectedCell, setSelectedCell] = useState({row: null, col: null});
   const [isLoading, setIsLoading] = useState(true);
   const [selectedNumber, setSelectedNumber] = useState(0);
+  const [gameWon, setGameWon] = useState(false);
 
   const boardRef = useRef();
+  const clueRef = useRef();
+  const optionsRef = useRef();
 
   function createMatrix(boardState){
     let matrix = Array.from({ length: 9 }, () => Array(9).fill(''));
@@ -52,6 +55,47 @@ export default function Sudoku() {
     setBoard(updated);
   }
 
+  function giveClue(){
+    const { row, col } = selectedCell;
+    if(row == null || col == null) return;
+    
+    const actualValue = solution[selectedCell.row][selectedCell.col];
+    updateBoard(selectedCell.row, selectedCell.col, actualValue)
+  }
+
+  function resolveBoard(){
+    setBoard(solution)
+  }
+
+  function handleDelete(row, col, entry){
+    if (entry === 'Backspace' || entry === 'Delete') {
+      updateBoard(row, col, 0);
+      return true;
+    }
+  }
+
+  function handleEntry(row, col, entry){
+    if (/^[1-9]$/.test(entry)) {
+      updateBoard(row, col, parseInt(entry, 10));
+      return true;
+    }
+  }
+
+  function handleArrowKeys(row, col, entry){
+    if (entry === 'ArrowUp') {setSelectedCell({ row: Math.max(0, row - 1), col }); return true;};
+    if (entry === 'ArrowDown') {setSelectedCell({ row: Math.min(8, row + 1), col }); return true;};
+    if (entry === 'ArrowLeft') {setSelectedCell({ row, col: Math.max(0, col - 1) }); return true;};
+    if (entry === 'ArrowRight') {setSelectedCell({ row, col: Math.min(8, col + 1) }); return true;};
+  }
+
+  function numberOptionSelected(optionSelected){
+    const { row, col } = selectedCell;
+    if(row == null || col == null) return;
+
+    updateBoard(row, col, optionSelected)
+    setSelectedNumber(optionSelected);
+  }
+
   // Calls API
   useEffect(() => {
     fetch("/api/sudoku")
@@ -63,25 +107,20 @@ export default function Sudoku() {
       setIsLoading(false);
     })
     .catch(err => console.error(err))
-  }, [])
+  }, []);
 
-  // Inputs values
+  // Keydown
   useEffect(() => {
     const handleKeyDown = (e) => {
       const {row, col} = selectedCell;
       
       if(row == null || col == null) return
 
+      if(handleArrowKeys(row, col, e.key)) return
+
       if (originalBoard[row][col] !== 0) return;
 
-      if (e.key === 'Backspace' || e.key === 'Delete') {
-        updateBoard(row, col, 0);
-        return;
-      }
-
-      if (/^[1-9]$/.test(e.key)) {
-        updateBoard(row, col, parseInt(e.key, 10));
-      }
+      if(handleDelete(row, col, e.key) || handleEntry(row, col, e.key)) return
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -91,7 +130,7 @@ export default function Sudoku() {
   // Forget selected Cell
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if(!boardRef.current?.contains(e.target)){
+      if(!boardRef.current?.contains(e.target) && !clueRef.current.contains(e.target) && !optionsRef.current.contains(e.target)){
         setSelectedCell({row: null, col: null})
       }
     };
@@ -99,8 +138,21 @@ export default function Sudoku() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Checking for win
+  useEffect(() => {
+    if(isLoading) return
+    
+    const isComplete = board.every((row, rIdx) => 
+      row.every((cell, cIdx) => cell === solution[rIdx][cIdx])
+    );
+    
+    if(isComplete){
+      setGameWon(true);
+    }
+  }, [board, solution]);
+
   if (isLoading || !board || !originalBoard) {
-    return <p>Loading...</p>;
+    return <div className="loading-bar">Loading...</div>;
   }
 
   return (
@@ -114,7 +166,21 @@ export default function Sudoku() {
         cellSelected={cellSelected}
         selectedNumber={selectedNumber}
       />
-      <NumberOptions selectedNumber={selectedNumber} setSelectedNumber={setSelectedNumber}></NumberOptions>
+      {!gameWon && (
+        <>
+          <NumberOptions optionsRef={optionsRef} selectedNumber={selectedNumber} setSelectedNumber={numberOptionSelected}></NumberOptions>
+          <div className="button-container">
+            <button className="option-button sudoku" ref={clueRef} onClick={giveClue}>Need a Clue?</button>
+            <button className="option-button sudoku" onClick={resolveBoard}>Resolve Board</button>
+          </div>
+        </>
+      )}
+      {gameWon && 
+      <div>
+        <p className="game-over-title">Puzzle Solved Correctly!</p>
+        <p className="game-over-sub-title">Refresh the page for a new puzzle!</p>
+      </div>
+      }
     </main>
  );
 }

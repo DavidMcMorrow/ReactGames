@@ -152,7 +152,7 @@ export default function Sudoku() {
   }, [board, solution]);
 
   if (isLoading || !board || !originalBoard) {
-    return <p>Loading...</p>;
+    return <div className="loading-bar">Loading...</div>;
   }
 
   return (

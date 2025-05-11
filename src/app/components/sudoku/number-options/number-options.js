@@ -5,7 +5,7 @@ export default function NumberOptions({optionsRef, selectedNumber, setSelectedNu
 
     function handleSelection(value){
         if(selectedNumber === value){
-            setSelectedNumber(0)
+            setSelectedNumber(null)
         } else{
             setSelectedNumber(value)
         }
@@ -21,6 +21,11 @@ export default function NumberOptions({optionsRef, selectedNumber, setSelectedNu
                     </div>
                 )
             }
+            <div className={`option-boxes ${selectedNumber === 0 ? 'selected' : ''}`}
+                key='Clear' 
+                onClick={() => handleSelection(0)}>X
+            </div>
+            
        </div>
     );
 }

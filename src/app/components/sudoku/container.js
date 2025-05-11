@@ -89,11 +89,11 @@ export default function Sudoku() {
   }
 
   function numberOptionSelected(optionSelected){
+    setSelectedNumber(optionSelected);
+    
     const { row, col } = selectedCell;
     
     if(row == null || col == null) return;
-
-    setSelectedNumber(optionSelected);
 
     if (originalBoard[row][col] !== 0) return;
 

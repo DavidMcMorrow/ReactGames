@@ -3,6 +3,6 @@
     grid-template-columns: repeat(9, 2.5rem);
     grid-template-rows: repeat(9, 2.5rem);
     border: 2px solid #333;
-    margin: 2rem auto;
+    margin: 1rem auto;
     width: max-content;
 }

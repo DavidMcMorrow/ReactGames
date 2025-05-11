@@ -92,3 +92,9 @@ h1 {
   text-align: center;
   margin-top: 1.5rem;
 }
+
+.button-container{
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}

@@ -61,6 +61,10 @@ export default function Sudoku() {
     updateBoard(selectedCell.row, selectedCell.col, actualValue)
   }
 
+  function resolveBoard(){
+    setBoard(solution)
+  }
+
   // Calls API
   useEffect(() => {
     fetch("/api/sudoku")
@@ -124,7 +128,11 @@ export default function Sudoku() {
         selectedNumber={selectedNumber}
       />
       <NumberOptions selectedNumber={selectedNumber} setSelectedNumber={setSelectedNumber}></NumberOptions>
-      <button ref={clueRef} onClick={giveClue}>Need a Clue?</button>
+      <div className="button-container">
+        <button className="option-button" ref={clueRef} onClick={giveClue}>Need a Clue?</button>
+        <button className="option-button" onClick={resolveBoard}>Resolve Board</button>
+      </div>
+      
     </main>
  );
 }

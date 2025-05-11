@@ -93,10 +93,11 @@ export default function Sudoku() {
     
     if(row == null || col == null) return;
 
+    setSelectedNumber(optionSelected);
+
     if (originalBoard[row][col] !== 0) return;
 
     updateBoard(row, col, optionSelected)
-    setSelectedNumber(optionSelected);
   }
 
   // Calls API

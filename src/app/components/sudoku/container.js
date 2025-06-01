@@ -45,7 +45,7 @@ export default function Sudoku() {
   function cellSelected(position){
     const {row, col} = position;
     setSelectedCell(position);
-    if(selectedNumber != 0){
+    if(selectedNumber != 0 && selectedNumber != null){
       updateBoard(row, col, selectedNumber);
       setSelectedNumber(null);
     }

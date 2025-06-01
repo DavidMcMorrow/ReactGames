@@ -24,6 +24,7 @@ export default function Sudoku() {
   const optionsRef = useRef();
 
   function createMatrix(boardState){
+    
     let matrix = Array.from({ length: 9 }, () => Array(9).fill(''));
     let line = -1;
     
@@ -46,6 +47,7 @@ export default function Sudoku() {
     setSelectedCell(position);
     if(selectedNumber != 0){
       updateBoard(row, col, selectedNumber);
+      setSelectedNumber(null);
     }
   }
 
@@ -97,7 +99,8 @@ export default function Sudoku() {
 
     if (originalBoard[row][col] !== 0) return;
 
-    updateBoard(row, col, optionSelected)
+    updateBoard(row, col, optionSelected);
+    setSelectedNumber(null);
   }
 
   // Calls API
@@ -134,6 +137,7 @@ export default function Sudoku() {
   // Forget selected Cell
   useEffect(() => {
     const handleClickOutside = (e) => {
+      
       if(!boardRef.current?.contains(e.target) && !clueRef.current.contains(e.target) && !optionsRef.current.contains(e.target)){
         setSelectedCell({row: null, col: null})
       }

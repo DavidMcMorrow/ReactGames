@@ -18,6 +18,7 @@ export default function Sudoku() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedNumber, setSelectedNumber] = useState();
   const [gameWon, setGameWon] = useState(false);
+  const [numberOfErrors, setNumberOfErrors] = useState(null);
 
   const boardRef = useRef();
   const clueRef = useRef();
@@ -103,6 +104,19 @@ export default function Sudoku() {
     setSelectedNumber(null);
   }
 
+  function calculateNumberOfErrors(){
+    let errorNum = 0
+    board.forEach((rows, rowIndex) => {
+      rows.forEach((cell, colIndex) => {
+        if(board[rowIndex][colIndex] != 0 && solution[rowIndex][colIndex] != board[rowIndex][colIndex]){
+          errorNum = errorNum + 1;
+        }
+      })
+    });
+    console.log("Number of errors = ", errorNum);
+    setNumberOfErrors(errorNum);
+  }
+
   // Calls API
   useEffect(() => {
     fetch("/api/sudoku")
@@ -159,6 +173,10 @@ export default function Sudoku() {
     }
   }, [board, solution]);
 
+  useEffect(() => {
+    setNumberOfErrors(null); // Clear on board change
+  }, [board]);
+
   if (isLoading || !board || !originalBoard) {
     return <div className="loading-bar">Loading...</div>;
   }
@@ -166,20 +184,38 @@ export default function Sudoku() {
   return (
     <main className="sudoku-container">
       <h1 className={'title'}>Sudoku</h1>
-      <Board 
-        board={board} 
-        boardRef={boardRef} 
-        originalBoard={originalBoard} 
-        selectedCell={selectedCell}
-        cellSelected={cellSelected}
-        selectedNumber={selectedNumber}
-      />
+      <div className="board-wrapper">
+        <div className="container-placeholder"></div>
+
+        <Board 
+          board={board} 
+          boardRef={boardRef} 
+          originalBoard={originalBoard} 
+          selectedCell={selectedCell}
+          cellSelected={cellSelected}
+          selectedNumber={selectedNumber}
+        />
+
+        <div className="container-placeholder">
+          {numberOfErrors !== null && (
+              <div className="error-count-side">
+                <p>Errors:</p>
+                <p>{numberOfErrors}</p>
+              </div>
+          )}
+        </div>
+      </div>
       {!gameWon && (
         <>
           <NumberOptions optionsRef={optionsRef} selectedNumber={selectedNumber} setSelectedNumber={numberOptionSelected}></NumberOptions>
+          
           <div className="button-container">
             <button className="option-button sudoku" ref={clueRef} onClick={giveClue}>Need a Clue?</button>
             <button className="option-button sudoku" onClick={resolveBoard}>Resolve Board</button>
+            <div className="errors">
+              <button className="option-button sudoku" onClick={calculateNumberOfErrors}>Show Number of Errors</button>
+            </div>
+            
           </div>
         </>
       )}
